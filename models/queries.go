@@ -11,7 +11,7 @@ var SQL_INSERT = `
 
 var SQL_LOGIN = `
 	select user_id from users
-	where (username = $1 or gmail = $1 ) and password = $2 and token is not null
+	where (username = $1 or gmail = $1 ) and password = $2
 `
 
 var SQL_ADD_TOKEN = `

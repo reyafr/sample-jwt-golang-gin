@@ -96,7 +96,9 @@ func Login(ctx *gin.Context) {
 	).Scan(&check)
 
 	if err != nil {
+		ctx.IndentedJSON(http.StatusForbidden, "Incorrect, Please try Again Letter")
 
+	} else {
 		time := time.Now().Add(2 * time.Hour)
 
 		jwtParol := model.Token{
@@ -124,29 +126,8 @@ func Login(ctx *gin.Context) {
 			&output.User.Gmail,
 		)
 
-		if err == nil {
-
-			ctx.IndentedJSON(http.StatusOK, output)
-
-		} else {
-
-			ctx.IndentedJSON(http.StatusForbidden, "User Existing")
-
-		}
-
-	} else {
-
-		err = db.QueryRow(
-			model.SQL_SELECT_USER,
-			check,
-		).Scan(
-			&output.Token,
-			&output.User.Username,
-			&output.User.Gmail,
-		)
-
 		if err != nil {
-			log.Fatal(err)
+			fmt.Printf("Error &s", err)
 		}
 
 		ctx.IndentedJSON(http.StatusOK, output)
